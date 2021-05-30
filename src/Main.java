@@ -29,20 +29,20 @@ public class Main {
 
     }
 
-    public static void saveGame(String path, GameProgress gameProgress) {
-        try (FileOutputStream fos = new FileOutputStream(path);
+    public static void saveGame(String pathOfFile, GameProgress gameProgress) {
+        try (FileOutputStream fos = new FileOutputStream(pathOfFile);
              ObjectOutputStream oos = new ObjectOutputStream(fos)) {
             oos.writeObject(gameProgress);
-            System.out.println("Файл сохранения игры " + path + " записан");
+            System.out.println("Файл сохранения игры " + pathOfFile + " записан");
 
         } catch (Exception ex) {
-            System.out.println("Файл сохранения игры " + path + " записать не получилось");
+            System.out.println("Файл сохранения игры " + pathOfFile + " записать не получилось");
             System.out.println(ex.getMessage());
         }
     }
 
-    public static void zipFiles(String path, List<String> listOfFilesToZip) {
-        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(path))) {
+    public static void zipFiles(String pathOfZip, List<String> listOfFilesToZip) {
+        try (ZipOutputStream zout = new ZipOutputStream(new FileOutputStream(pathOfZip))) {
             for (String s : listOfFilesToZip) {
                 File file = new File(s);
                 if (file.exists()) {
@@ -55,7 +55,9 @@ public class Main {
                     zout.write(buffer);
                     zout.closeEntry();
                     fis.close();
-                } else System.out.println("Файл " + s + " найти и заархивировать не удалось");
+                } else {
+                    System.out.println("Файл " + s + " найти и заархивировать не удалось");
+                }
             }
             System.out.println("Архив создан");
         } catch (Exception ex) {
@@ -64,10 +66,12 @@ public class Main {
         }
     }
 
-    public static void deleteFile(String path) {
-        File file = new File(path);
+    public static void deleteFile(String pathOfFile) {
+        File file = new File(pathOfFile);
         if (file.delete()) {
-            System.out.println("Файл " + path + " удален");
-        } else System.out.println("Файл " + path + " удалить не получилось");
+            System.out.println("Файл " + pathOfFile + " удален");
+        } else {
+            System.out.println("Файл " + pathOfFile + " удалить не получилось");
+        }
     }
 }
